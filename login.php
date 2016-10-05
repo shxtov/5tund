@@ -11,7 +11,6 @@ $loginNotice = "";
 
 
 //võtab ja kopeerib faili sisu
-require ("../../config.php");
 require ("functions.php");
 
 if (isset ($_SESSION["userId"])){

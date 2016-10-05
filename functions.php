@@ -1,5 +1,10 @@
 <?php
 
+	$serverHost = "localhost";
+	$serverUsername = "if16";
+	$serverPassword = "ifikad16";
+
+
 //    function sum ($x, $y){
 //        return $x + $y;
 //    }
@@ -78,4 +83,46 @@ function login ($email, $password){
         $loginNotice ="Sellist kasutajat ei eksisteeri!";
     }
     return $loginNotice;
+}
+
+function campusClothing ($gender, $color){
+    $mysqli = new mysqli($GLOBALS["serverHost"], $GLOBALS["serverUsername"], $GLOBALS['serverPassword'], $GLOBALS['db']);
+    $stmt = $mysqli->prepare("INSERT INTO campus_clothing (gender, color) VALUES (?,?)");
+    $stmt->bind_param("ss", $gender, $color);
+
+    if($stmt->execute()){
+        $campusNotice ="Salvestamine õnnestus!";
+    }else{
+        $campusNotice = "Salvestamine ebaõnnestus!";
+    }
+    return $campusNotice;
+}
+
+function getAllCampusClothing (){
+    $mysqli = new mysqli($GLOBALS["serverHost"], $GLOBALS["serverUsername"], $GLOBALS['serverPassword'], $GLOBALS['db']);
+    $stmt = $mysqli->prepare("SELECT id, gender, color, created FROM campus_clothing");
+    $stmt->bind_result($id, $gender, $color, $created);
+
+    $stmt->execute();
+
+    $result = array();
+
+    //seni kuni on üks rida andmeid saada(10 rida = 10 korda)
+    while($stmt->fetch()){
+        $person = new StdClass();
+        $person->clothingId = $id;
+        $person->clothingGender = $gender;
+        $person->clothingColor = $color;
+        $person->clothingCreated = $created;
+        array_push($result, $person);
+    }
+    
+    $stmt->close();
+    $mysqli->close();
+
+    return $result;
+    
+    
+
+
 }

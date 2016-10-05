@@ -7,7 +7,6 @@
 
 
 //võtab ja kopeerib faili sisu
-require ("../../config.php");
 require ("functions.php");
 
 
@@ -114,7 +113,7 @@ if (empty ($signupEmailError)&& empty($signupPasswordError) && empty($signupCarP
     $signupCarPref_todatabase = implode ($_POST['signupCarPref_items'], " ");
     $password = hash("sha512", $_POST["signupPassword"]);
 
-
+    
     $signupNotice = signup($signupEmail, $password, $signupBday, $signupGender, $signupCarPref_todatabase);
 }
 
